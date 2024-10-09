@@ -1,0 +1,11 @@
+[package]
+name = "crcr-client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rand = "0.8.5"
+slint = "1.7.2"
+
+[build-dependencies]
+slint-build = "1.7.2"
