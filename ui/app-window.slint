@@ -1,5 +1,9 @@
 import { HorizontalBox, VerticalBox } from "std-widgets.slint";
 import { Group } from "./grup.slint";
+import { Status } from "./status.slint";
+import { Textbox, TextboxLogic } from "./textbox.slint";
+
+export { TextboxLogic }
 
 export component AppWindow inherits Window {
     title: "Monolith Control Center";
@@ -30,21 +34,41 @@ export component AppWindow inherits Window {
             title: "CHAT";
             icon: @image-url("./icons/icon_0.png");
             x: (mod(0, max(floor(root.width / 360px), 1)) * 360px);
-            y: (floor(0 / max(floor(root.width / 350px), 1)) * 210px);
+            y: (floor(0 / max(floor(root.width / 350px), 1)) * 230px);
         }
 
         Group {
             title: "QUESTS";
             icon: @image-url("./icons/icon_1.png");
             x: (mod(1, max(floor(root.width / 360px), 1)) * 360px);
-            y: (floor(1 / max(floor(root.width / 350px), 1)) * 210px);
+            y: (floor(1 / max(floor(root.width / 350px), 1)) * 230px);
+
+            Textbox {
+                height: 40px;
+                title: "IRC ADDRESS";
+                value: "0000.0000.0000";
+            }
+
+            Status {
+                height: 40px;
+                title: "IRC STATUS";
+                value: "CONNECTED";
+                text-color: #E5C72F;
+            }
+
+            Status {
+                height: 40px;
+                title: "PDA STATUS";
+                value: "DISCONNECTED";
+                text-color: #D61818;
+            }
         }
 
         Group {
             title: "STORAGE";
             icon: @image-url("./icons/icon_2.png");
             x: (mod(2, max(floor(root.width / 360px), 1)) * 360px);
-            y: (floor(2 / max(floor(root.width / 350px), 1)) * 210px);
+            y: (floor(2 / max(floor(root.width / 350px), 1)) * 230px);
         }
     }
 }

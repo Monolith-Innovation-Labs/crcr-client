@@ -19,7 +19,7 @@ export component Group inherits Rectangle {
     in property <image> icon;
 
     width: 350px;
-    height: enabled ? 200px : 60px;
+    height: enabled ? 220px : 60px;
     animate height { delay: 0.25s; duration: 0.5s; }
     animate border-bottom-left-radius { duration: 0.25s; }
     animate border-bottom-right-radius { duration: 0.25s; }
@@ -83,17 +83,25 @@ export component Group inherits Rectangle {
     Rectangle {
         x: 0px;
         y: 60px;
-        height: enabled ? 140px : 0px;
+        height: enabled ? 160px : 0px;
         width: parent.width;
         border-width: 2px;
         border-color: #4F504F;
         border-bottom-left-radius: enabled ? 8px : 0px;
         border-bottom-right-radius: enabled ? 8px : 0px;
+        clip: true;
 
         animate height { delay: 0.25s; duration: 0.5s; }
         animate border-bottom-left-radius { duration: 0.25s; }
         animate border-bottom-right-radius { duration: 0.25s; }
 
-        @children
+        VerticalLayout {
+            padding: 10px;
+            height:  enabled ? 160px : 0px;
+            alignment: space-between;
+            animate height { delay: 0.25s; duration: 0.5s; }
+
+            @children
+        }
     }
 }
