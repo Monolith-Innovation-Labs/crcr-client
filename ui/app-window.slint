@@ -1,90 +1,50 @@
-import { Button, VerticalBox } from "std-widgets.slint";
-
-struct TileData {
-    image: image,
-    image_visible: bool,
-    solved: bool,
-}
-
-component MemoryTile inherits Rectangle {
-    callback clicked();
-    in property <bool> open_curtain;
-    in property <bool> solved;
-    in property <image> icon;
-
-    width: 64px;
-    height: 64px;
-    border-radius: 5px;
-    background: solved ? #34CE57 : #3960D5;
-    animate background { duration: 800ms; }
-    
-    Image {
-        source: icon;
-        width: parent.width - 25px;
-        height: parent.height - 25px;
-    }
-    
-    Rectangle {
-        background: #193076;
-        x: 0px;
-        width: open_curtain ? 0px : (parent.width / 2);
-        height: parent.height;
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px;
-        animate width { duration: 250ms; easing: ease-in; }
-    }
-
-    Rectangle {
-        background: #193076;
-        x: open_curtain ? parent.width : (parent.width / 2);
-        width: open_curtain ? 0px : (parent.width / 2);
-        height: parent.height;
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px;
-        animate width { duration: 250ms; easing: ease-in; }
-        animate x { duration: 250ms; easing: ease-in; }
-    }
-
-    TouchArea {
-        clicked => {
-            root.clicked();
-        }
-    }
-}
+import { HorizontalBox, VerticalBox } from "std-widgets.slint";
+import { Group } from "./grup.slint";
 
 export component AppWindow inherits Window {
-    width: 326px;
-    height: 326px;
-    x: (326px - 74px * 4) / 2 + 5px;
-    y: (326px - 74px * 4) / 2 + 5px;
+    title: "Monolith Control Center";
+    icon: @image-url("icons/app_icon.png");
+    min-width: 400px;
+    min-height: 660px;
+    background: #292A29;
+    padding: 10px;
+    
+    Image {
+        width: parent.width;
+        height: parent.height;
+        source: @image-url("images/background.png");
+    }
+    
+    Rectangle {
+        width: parent.width;
+        height: parent.height;
+        border-color: #FFFFFF;
+        border-width: 1px;
+    }
 
-    callback check_if_pair_solved();
-    in property <bool> disable_tiles;
-    in property <[TileData]> memory_tiles: [
-        { image: @image-url("icons/at.png") },
-        { image: @image-url("icons/balance-scale.png") },
-        { image: @image-url("icons/bicycle.png") },
-        { image: @image-url("icons/bus.png") },
-        { image: @image-url("icons/cloud.png") },
-        { image: @image-url("icons/cogs.png") },
-        { image: @image-url("icons/motorcycle.png") },
-        { image: @image-url("icons/video.png") },
-    ];
+    Rectangle {
+        x: (root.width - min(3, (floor(root.width / 360px))) * 360px) / 2 + 5px;
+        y: 20px;
 
-    for tile[i] in memory_tiles : MemoryTile {
-        x: (mod(i, 4) * 74px);
-        y: (floor(i / 4) * 74px);
-        width: 64px;
-        height: 64px;
-        icon: tile.image;
-        open_curtain: tile.image_visible || tile.solved;
-        solved: tile.solved;
+        Group {
+            title: "CHAT";
+            icon: @image-url("./icons/icon_0.png");
+            x: (mod(0, max(floor(root.width / 360px), 1)) * 360px);
+            y: (floor(0 / max(floor(root.width / 350px), 1)) * 210px);
+        }
 
-        clicked => {
-            if (!root.disable_tiles) {
-                tile.image_visible = true;
-                root.check_if_pair_solved();
-            }
+        Group {
+            title: "QUESTS";
+            icon: @image-url("./icons/icon_1.png");
+            x: (mod(1, max(floor(root.width / 360px), 1)) * 360px);
+            y: (floor(1 / max(floor(root.width / 350px), 1)) * 210px);
+        }
+
+        Group {
+            title: "STORAGE";
+            icon: @image-url("./icons/icon_2.png");
+            x: (mod(2, max(floor(root.width / 360px), 1)) * 360px);
+            y: (floor(2 / max(floor(root.width / 350px), 1)) * 210px);
         }
     }
 }

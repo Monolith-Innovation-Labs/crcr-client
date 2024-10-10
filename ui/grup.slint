@@ -1,0 +1,99 @@
+import { HorizontalBox } from "std-widgets.slint";
+import { Button } from "./button.slint";
+
+component Title inherits Rectangle {
+    in property <string> text;
+
+    Text {
+        y: 12px;
+        text: root.text;
+        color: #fff;
+        font-size: 20px;
+        vertical-alignment: center;
+    }
+}
+
+export component Group inherits Rectangle {
+    in-out property <bool> enabled;
+    in property <string> title;
+    in property <image> icon;
+
+    width: 350px;
+    height: enabled ? 200px : 60px;
+    animate height { delay: 0.25s; duration: 0.5s; }
+    animate border-bottom-left-radius { duration: 0.25s; }
+    animate border-bottom-right-radius { duration: 0.25s; }
+
+    border-radius: 8px;
+    border-bottom-left-radius: enabled ? 8px : 0px;
+    border-bottom-right-radius: enabled ? 8px : 0px;
+    border-color: #4F504F;
+    border-width: 2px;
+    background: #2E2F2E;
+    opacity: 80%;
+
+    HorizontalBox {
+        x: 0px;
+        y: 0px;
+        height: 60px;
+        width: parent.width;
+        alignment: space-between;
+
+        Rectangle {
+            width: 40px + (parent.height - 40px)/2;
+
+            Rectangle {
+                width: 40px;
+                height: 40px;
+
+                Image {
+                    width: 20px;
+                    height: 20px;
+                    source: root.icon;
+                }
+
+                Image {
+                    width: 30px;
+                    height: 30px;
+                    source: @image-url("./images/yellow-box.png");
+                    rotation-angle: root.enabled ? 405deg : 45deg;
+                    animate rotation-angle { delay: 0.25s; duration: 0.5s; }
+                }
+            }
+        }
+
+        Title {
+            text: root.title;
+        }
+
+        Rectangle {
+            width: 100px;
+
+            Button {
+                width: parent.width - 12.5px;
+                height: 35px;
+
+                text: root.enabled ? "ON" : "OFF";
+                text-color: root.enabled ? #E5C72F : #888;
+                clicked => { root.enabled = !root.enabled; }
+            }
+        }
+    }
+
+    Rectangle {
+        x: 0px;
+        y: 60px;
+        height: enabled ? 140px : 0px;
+        width: parent.width;
+        border-width: 2px;
+        border-color: #4F504F;
+        border-bottom-left-radius: enabled ? 8px : 0px;
+        border-bottom-right-radius: enabled ? 8px : 0px;
+
+        animate height { delay: 0.25s; duration: 0.5s; }
+        animate border-bottom-left-radius { duration: 0.25s; }
+        animate border-bottom-right-radius { duration: 0.25s; }
+
+        @children
+    }
+}
