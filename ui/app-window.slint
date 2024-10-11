@@ -2,17 +2,27 @@ import { HorizontalBox, VerticalBox } from "std-widgets.slint";
 import { Group } from "./grup.slint";
 import { Status } from "./status.slint";
 import { Textbox, TextboxLogic } from "./textbox.slint";
+import { Connection } from "./connection.slint";
+import { Chat } from "./chat.slint";
 
 export { TextboxLogic }
+export { Connection }
 
 export component AppWindow inherits Window {
+    in-out property <string> chat-user <=> chat.user;
+    in-out property <string> chat-irc-address <=> chat.irc-address;
+    in property <Connection> chat-irc-status <=> chat.irc-status;
+    in property <Connection> chat-pda-status <=> chat.pda-status;
+    callback chat-connect <=> chat.connect;
+    callback chat-disconnect <=> chat.disconnect;
+
     title: "Monolith Control Center";
     icon: @image-url("icons/app_icon.png");
     min-width: 400px;
     min-height: 660px;
     background: #292A29;
     padding: 10px;
-    
+
     Image {
         width: parent.width;
         height: parent.height;
@@ -30,9 +40,7 @@ export component AppWindow inherits Window {
         x: (root.width - min(3, (floor(root.width / 360px))) * 360px) / 2 + 5px;
         y: 20px;
 
-        Group {
-            title: "CHAT";
-            icon: @image-url("./icons/icon_0.png");
+        chat := Chat {
             x: (mod(0, max(floor(root.width / 360px), 1)) * 360px);
             y: (floor(0 / max(floor(root.width / 350px), 1)) * 230px);
         }
@@ -42,26 +50,6 @@ export component AppWindow inherits Window {
             icon: @image-url("./icons/icon_1.png");
             x: (mod(1, max(floor(root.width / 360px), 1)) * 360px);
             y: (floor(1 / max(floor(root.width / 350px), 1)) * 230px);
-
-            Textbox {
-                height: 40px;
-                title: "IRC ADDRESS";
-                value: "0000.0000.0000";
-            }
-
-            Status {
-                height: 40px;
-                title: "IRC STATUS";
-                value: "CONNECTED";
-                text-color: #E5C72F;
-            }
-
-            Status {
-                height: 40px;
-                title: "PDA STATUS";
-                value: "DISCONNECTED";
-                text-color: #D61818;
-            }
         }
 
         Group {

@@ -17,6 +17,7 @@ export component Group inherits Rectangle {
     in-out property <bool> enabled;
     in property <string> title;
     in property <image> icon;
+    callback enable-changed(bool);
 
     width: 350px;
     height: enabled ? 220px : 60px;
@@ -75,7 +76,10 @@ export component Group inherits Rectangle {
 
                 text: root.enabled ? "ON" : "OFF";
                 text-color: root.enabled ? #E5C72F : #888;
-                clicked => { root.enabled = !root.enabled; }
+                clicked => {
+                    root.enabled = !root.enabled;
+                    root.enable-changed(root.enabled);
+                }
             }
         }
     }

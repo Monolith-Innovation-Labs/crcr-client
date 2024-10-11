@@ -1,0 +1,38 @@
+import { HorizontalBox, VerticalBox } from "std-widgets.slint";
+import { Group } from "./grup.slint";
+import { Status } from "./status.slint";
+import { Textbox, TextboxLogic } from "./textbox.slint";
+
+export { TextboxLogic }
+
+export enum Connection {
+    Connected,
+    Disconnected,
+    Connecting
+}
+
+export global ConnectionUtils  {
+    public pure function connection-to-text(connection: Connection) -> string {
+        if (connection == Connection.Connected) {
+            return "Connected";
+        }
+
+        if (connection == Connection.Connecting) {
+            return "Connecting";
+        }
+
+        return "Disconnected";
+    }
+
+    public pure function connection-to-color(connection: Connection) -> color {
+        if (connection == Connection.Connected) {
+            return #E5C72F;
+        }
+
+        if (connection == Connection.Connecting) {
+            return #fff;
+        }
+
+        return #D61818;
+    }
+}

@@ -1,0 +1,65 @@
+import { HorizontalBox, VerticalBox } from "std-widgets.slint";
+import { Group } from "./grup.slint";
+import { Status } from "./status.slint";
+import { Textbox, TextboxLogic } from "./textbox.slint";
+import { Connection, ConnectionUtils } from "./connection.slint";
+
+enum ChatPanel {
+    Disabled,
+    Enabled,
+    Settings
+}
+
+//CRCR - Anchor Point
+//irc.slashnet.org:6667
+//
+//Call Of Chernobyl
+//irc.gamesurge.net:6667
+
+export component Chat inherits Group {
+    in-out property <string> user: "";
+    in-out property <string> irc-address: "irc.slashnet.org:6667";
+    in property <Connection> irc-status: Connection.Disconnected;
+    in property <Connection> pda-status: Connection.Disconnected;
+    callback connect;
+    callback disconnect;
+
+    out property <ChatPanel> state: ChatPanel.Disabled;
+
+    enable-changed(enabled) => {
+        if (enabled) {
+            if (TextboxLogic.str_len(irc-address) > 0) {
+                connect();
+            }
+
+            state = ChatPanel.Enabled;
+        }
+
+        else {
+            disconnect();
+            state = ChatPanel.Disabled;
+        }
+    }
+
+    title: "CHAT";
+    icon: @image-url("./icons/icon_0.png");
+
+    chat-irc-address-ui := Textbox {
+        height: 40px;
+        title: "IRC ADDRESS";
+    }
+
+    chat-irc-status-ui := Status {
+        height: 40px;
+        title: "IRC STATUS";
+        value: ConnectionUtils.connection-to-text(irc-status);
+        text-color: ConnectionUtils.connection-to-color(irc-status);
+    }
+
+    chat-pda-status-ui := Status {
+        height: 40px;
+        title: "PDA STATUS";
+        value: ConnectionUtils.connection-to-text(pda-status);
+        text-color: ConnectionUtils.connection-to-color(pda-status);
+    }
+}
